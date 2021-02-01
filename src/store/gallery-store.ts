@@ -6,12 +6,12 @@ import { ImageItem } from "../models/image.item.dto";
 export async function getRandomImage(): Promise<ImageItem[]> {
   const storage = require('node-persist');
   const items = await storage.getItem('preLoadedImages');
-  const getRandomItems = () => {
-    return items.sort(() => Math.random() - Math.random()).slice(0, 5)
-
-  }
+  if (items.length < 5) { loadImages() }
+  const randomItems = items.sort(() => Math.random() - Math.random()).slice(0, 5);
+  const filteredArray = items.filter((ar: { id: string; }) => !randomItems.find((rm: { id: string; }) => (rm.id === ar.id)));
+  await storage.setItem('preLoadedImages', filteredArray);
   return new Promise<ImageItem[]>((resolve) => {
-    resolve(getRandomItems());
+    resolve(randomItems);
   });
 }
 
