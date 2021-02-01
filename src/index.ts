@@ -1,5 +1,5 @@
 import { app } from './app';
-import { loadImages } from './store/devices-store';
+import { loadImages } from './store/gallery-store';
 
 
 

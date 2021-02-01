@@ -1,5 +1,5 @@
 import {  Router } from 'express';
-import { getRandomImage } from '../store/devices-store';
+import { getRandomImage } from '../store/gallery-store';
 import {  wrapAsyncAndSend } from '../handlers/handlers';
 
 const imageLoaderRouter = Router();

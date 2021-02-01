@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import * as bodyParser from "body-parser";
-import { imageLoaderRouter } from './routes/device-hub-routes';
+import { imageLoaderRouter } from './routes/gallery.routes';
 import { requestLog } from './middleware/request-log';
 import { clientErrorHandler, errorHandler, logErrors } from './middleware/errors';
 import expressWinston from 'express-winston';
