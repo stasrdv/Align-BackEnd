@@ -1,20 +1,28 @@
 import { app } from './app';
-import { loadImages } from './store/gallery-store';
+import { dbConnector } from './utils/db.connector';
+import { server } from './utils/server.connector';
 
 
-
-app.set('port', process.env.PORT || 8000);
 const startServer = () =>
-  app.listen(app.get('port'), () => {
-    console.log(' App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
-    console.log(' Press CTRL-C to stop\n');
-  });
+  dbConnector().then(() => {
+    server.listen(app.get('port'), () => {
+      console.log(' App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
+      console.log(' Press CTRL-C to stop\n');
+    });
+  }).catch(error => { console.log(error) })
 
+const socketIO = require('socket.io')(server, {
+  cors: {
+    origins: ['http://localhost:4200']
+  }
+});
+export const emitEvent = (eventName: string, data: any) => {
+  console.log(eventName, data)
+  socketIO.emit(eventName, data);
 
-  loadImages().then(()=>startServer())
-  .catch(error => {
-    console.error('Error ' + error.message);
-  })
+}
+startServer();
+
 
 
 
